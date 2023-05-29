@@ -1,5 +1,5 @@
 #[derive(Debug)]
-pub struct WaylandDesktop {
+pub struct DesktopEnvironment {
     pub filename: String,
     pub name: String,
     pub comment: Option<String>,
@@ -7,7 +7,7 @@ pub struct WaylandDesktop {
     pub desktop_type: Option<String>,
 }
 
-impl WaylandDesktop {
+impl DesktopEnvironment {
     pub fn new<T>(desktop: T, filename: String) -> Option<Self>
     where
         T: ToString,
@@ -58,7 +58,7 @@ impl WaylandDesktop {
     }
 }
 
-pub fn get_all_desktop() -> Vec<WaylandDesktop> {
+fn get_all_wayland() -> Vec<DesktopEnvironment> {
     use glob::glob;
     use std::fs::read_to_string;
     if let Ok(entry) = glob("/usr/share/wayland-sessions/*.desktop") {
@@ -66,7 +66,7 @@ pub fn get_all_desktop() -> Vec<WaylandDesktop> {
             .flatten()
             .filter_map(|enty| {
                 read_to_string(enty.clone()).ok().and_then(|message| {
-                    WaylandDesktop::new(
+                    DesktopEnvironment::new(
                         message,
                         enty.file_stem().unwrap().to_str().unwrap().to_string(),
                     )
@@ -76,4 +76,30 @@ pub fn get_all_desktop() -> Vec<WaylandDesktop> {
     } else {
         Vec::new()
     }
+}
+
+fn get_all_x11() -> Vec<DesktopEnvironment> {
+    use glob::glob;
+    use std::fs::read_to_string;
+    if let Ok(entry) = glob("/usr/share/xsessions/*.desktop") {
+        entry
+            .flatten()
+            .filter_map(|enty| {
+                read_to_string(enty.clone()).ok().and_then(|message| {
+                    DesktopEnvironment::new(
+                        message,
+                        enty.file_stem().unwrap().to_str().unwrap().to_string(),
+                    )
+                })
+            })
+            .collect()
+    } else {
+        Vec::new()
+    }
+}
+
+pub fn get_all_desktop() -> Vec<DesktopEnvironment> {
+    let mut desktops: Vec<DesktopEnvironment> =  get_all_wayland();
+    desktops.extend(get_all_x11());
+    return desktops
 }
