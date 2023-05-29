@@ -17,7 +17,7 @@ export component AppWindow inherits Window {
         x: 0; y: 0;
         height: 100%; width: 100%;
         // https://commons.wikimedia.org/wiki/File:Berlin_potsdamer_platz.jpg Belappetit, CC BY-SA 3.0
-        source: @image-url("../../misc/resources/gangdamu.png");
+        source: @image-url("/home/quack/Pictures/vtuber/ina4k.jpg");
         image-fit: cover;
     }
 
@@ -38,15 +38,61 @@ export component AppWindow inherits Window {
         alignment: center;
         HorizontalBox {
             Rectangle {}
+            //Text {
+            //    text: "Username:";
+            //    font-size: 15px;
+            //    font-weight: 0;
+            //    color: blueviolet;
+            //    max-width: 80px;
+            //    min-width: 80px;
+            //
+            //}
             user := LineEdit {
-                max-width: 100px;
+                max-width: 400px;
+                placeholder-text: "Username";
             }
             Rectangle {}
         }
         HorizontalBox {
             Rectangle {}
+            //Text {
+            //    text: "Password:";
+            //    font-size: 15px;
+            //    font-weight: 0;
+            //    color: blueviolet;
+            //    max-width: 80px;
+            //    min-width: 80px;
+            //}
+            edit := LineEdit {
+                input-type: password;
+                max-width: 400px;
+                placeholder-text: "Password";
+            }
+            //Button {
+            //    text: "s/h";
+            //    max-width: 30px;
+            //    clicked => {
+            //        if (edit.input-type == InputType.password) {
+            //            edit.input-type = InputType.text;
+            //        } else {
+            //            edit.input-type = InputType.password;
+            //        }
+            //    }
+            //}
+            Rectangle {}
+        }
+        HorizontalBox {
+            Rectangle {}
+            //Text {
+            //    text: "Desktop:";
+            //    font-size: 15px;
+            //    font-weight: 0;
+            //    color: blueviolet;
+            //    max-width: 80px;
+            //    min-width: 80px;
+            //}
             wm := ComboBox {
-                max-width: 300px;
+                max-width: 339px;
                 current-value: SystemInfos.wms[0];
                 model: SystemInfos.wms;
                 current-index <=> wmindex;
@@ -54,40 +100,28 @@ export component AppWindow inherits Window {
                     commend.text = SystemInfos.wm-command[wm.current-index];
                 }
             }
+            //Button {
+            //    text: "Edit";
+            //    max-width: 30px;
+            //    clicked => {
+            //        if (edit.input-type == InputType.password) {
+            //            edit.input-type = InputType.text;
+            //        } else {
+            //            edit.input-type = InputType.password;
+            //        }
+            //    }
+            //}
             Rectangle {}
         }
         HorizontalBox {
             Rectangle {}
-            Text {
-                text: "command:";
-                font-size: 15px;
-                font-weight: 30;
-                color: blueviolet;
-            }
             commend := LineEdit {
                 text: SystemInfos.wm-command[0];
+                min-width: 120px;
             }
             Rectangle {}
         }
         Rectangle {}
-        HorizontalBox {
-            Rectangle {}
-            edit := LineEdit {
-                input-type: password;
-            }
-            Button {
-                text: "s/h";
-                max-width: 30px;
-                clicked => {
-                    if (edit.input-type == InputType.password) {
-                        edit.input-type = InputType.text;
-                    } else {
-                        edit.input-type = InputType.password;
-                    }
-                }
-            }
-            Rectangle {}
-        }
         Rectangle {}
         HorizontalBox {
             Rectangle {}
